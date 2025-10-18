@@ -1,0 +1,111 @@
+import { Store } from "lucide-react";
+import { CrudTable, CrudTableConfig } from "@/components/crud/CrudTable";
+
+const supplierProductWarehousesConfig: CrudTableConfig = {
+  table: "supplier_products_warehouse",
+  title: "Supplier Product Warehouses",
+  description: "Manage supplier products available at specific warehouse locations with inventory and pricing",
+  primaryKey: "supplier_id,product_id,warehouse_id",
+  displayColumns: ["supplier_id", "product_id", "warehouse_id", "price", "available_inventory", "lead_time_days"],
+  searchableColumns: ["supplier_id", "product_id", "warehouse_id", "price", "available_inventory", "lead_time_days"],
+  icon: Store,
+  fields: [
+    {
+      name: "supplier_id",
+      label: "Supplier",
+      type: "foreign_key",
+      required: true,
+      foreignTable: "suppliers",
+      foreignKeyField: "supplier_id",
+      foreignDisplayField: "name",
+    },
+    {
+      name: "product_id",
+      label: "Product",
+      type: "foreign_key",
+      required: true,
+      foreignTable: "products",
+      foreignKeyField: "product_id",
+      foreignDisplayField: "product_name",
+    },
+    {
+      name: "warehouse_id",
+      label: "Warehouse",
+      type: "foreign_key",
+      foreignTable: "supplier_warehouses",
+      foreignKeyField: "warehouse_id",
+      foreignDisplayField: "warehouse_name",
+    },
+    { name: "price", label: "Price", type: "number", min: 0, step: 0.01, placeholder: "Enter price" },
+    {
+      name: "currency_id",
+      label: "Currency",
+      type: "foreign_key",
+      required: false,
+      foreignTable: "currencies",
+      foreignKeyField: "id",
+      foreignDisplayField: "value",
+    },
+    {
+      name: "available_inventory",
+      label: "Available Inventory",
+      type: "number",
+      min: 0,
+      placeholder: "Enter available inventory",
+    },
+    {
+      name: "lead_time_days",
+      label: "Lead Time (days)",
+      type: "number",
+      min: 0,
+      placeholder: "Enter lead time in days",
+    },
+    {
+      name: "moq_minimum_order_quantity",
+      label: "Minimum Order Quantity",
+      type: "number",
+      min: 1,
+      placeholder: "Enter MOQ",
+    },
+    { name: "payment_methods", label: "Payment Methods", type: "text", placeholder: "Enter accepted payment methods" },
+    { name: "credit_days", label: "Credit Days", type: "number", min: 0, placeholder: "Enter credit days" },
+    {
+      name: "incoterm_id",
+      label: "Incoterm",
+      type: "foreign_key",
+      required: false,
+      foreignTable: "incoterms",
+      foreignKeyField: "id",
+      foreignDisplayField: "value",
+    },
+    {
+      name: "location_origin_id",
+      label: "Location Origin",
+      type: "foreign_key",
+      required: false,
+      foreignTable: "location_origins",
+      foreignKeyField: "id",
+      foreignDisplayField: "value",
+    },
+    {
+      name: "volume_discount_percent",
+      label: "Volume Discount (%)",
+      type: "number",
+      min: 0,
+      max: 100,
+      step: 0.01,
+      placeholder: "Enter volume discount percentage",
+    },
+    {
+      name: "supplier_notes",
+      label: "Supplier Notes",
+      type: "textarea",
+      placeholder: "Enter supplier notes",
+      required: false,
+    },
+  ],
+};
+
+export default function SupplierProductWarehouses() {
+  return <CrudTable config={supplierProductWarehousesConfig} hasAddressFields={false} />;
+}
